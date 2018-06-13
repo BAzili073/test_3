@@ -61,6 +61,8 @@ DMA_HandleTypeDef hdma_adc;
 DAC_HandleTypeDef hdac;
 DMA_HandleTypeDef hdma_dac_ch2;
 
+TIM_HandleTypeDef htim3;
+
 UART_HandleTypeDef huart1;
 
 osThreadId defaultTaskHandle;
@@ -81,6 +83,7 @@ static void MX_DMA_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_DAC_Init(void);
 static void MX_ADC_Init(void);
+static void MX_TIM3_Init(void);
 void StartDefaultTask(void const * argument);
 void workCommand(void const * argument);
 void uartSend(void const * argument);
@@ -91,7 +94,10 @@ void uartSend(void const * argument);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
-
+uint32_t adcValue;
+uint32_t adcValueArray[1000];
+uint32_t adcValueAvg;
+uint16_t adcSampleRate = 1000;
 /* USER CODE END 0 */
 
 /**
@@ -127,6 +133,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_DAC_Init();
   MX_ADC_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -162,7 +169,7 @@ int main(void)
 
   /* Create the queue(s) */
   /* definition and creation of uartCommand */
-  osMessageQDef(uartCommand, QUEUE_UART_COMMAND_SIZE, uint32_t);
+  osMessageQDef(uartCommand, 16, uint32_t);
   uartCommandHandle = osMessageCreate(osMessageQ(uartCommand), NULL);
 
   /* definition and creation of uartSendMessage */
@@ -257,7 +264,7 @@ static void MX_ADC_Init(void)
     */
   hadc.Instance = ADC1;
   hadc.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
-  hadc.Init.Resolution = ADC_RESOLUTION_12B;
+  hadc.Init.Resolution = ADC_RESOLUTION_6B;
   hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc.Init.ScanConvMode = ADC_SCAN_DISABLE;
   hadc.Init.EOCSelection = ADC_EOC_SEQ_CONV;
@@ -277,7 +284,7 @@ static void MX_ADC_Init(void)
 
     /**Configure for the selected ADC regular channel its corresponding rank in the sequencer and its sample time. 
     */
-  sConfig.Channel = ADC_CHANNEL_4;
+  sConfig.Channel = ADC_CHANNEL_1;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLETIME_4CYCLES;
   if (HAL_ADC_ConfigChannel(&hadc, &sConfig) != HAL_OK)
@@ -306,6 +313,22 @@ static void MX_DAC_Init(void)
   sConfig.DAC_Trigger = DAC_TRIGGER_NONE;
   sConfig.DAC_OutputBuffer = DAC_OUTPUTBUFFER_ENABLE;
   if (HAL_DAC_ConfigChannel(&hdac, &sConfig, DAC_CHANNEL_2) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+}
+
+/* TIM3 init function */
+static void MX_TIM3_Init(void)
+{
+
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 32;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 50000;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  if (HAL_TIM_OnePulse_Init(&htim3, TIM_OPMODE_SINGLE) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -341,10 +364,10 @@ static void MX_DMA_Init(void)
 
   /* DMA interrupt init */
   /* DMA1_Channel1_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 6, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
   /* DMA1_Channel3_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 6, 0);
   HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
 
 }
@@ -359,7 +382,6 @@ static void MX_DMA_Init(void)
      PC1   ------> LCD_SEG19
      PC2   ------> LCD_SEG20
      PC3   ------> LCD_SEG21
-     PA1   ------> LCD_SEG0
      PA2   ------> LCD_SEG1
      PA3   ------> LCD_SEG2
      PA6   ------> TS_G2_IO1
@@ -429,10 +451,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(B1_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : SEG0_Pin SEG1_Pin SEG2_Pin COM0_Pin 
-                           SEG12_Pin */
-  GPIO_InitStruct.Pin = SEG0_Pin|SEG1_Pin|SEG2_Pin|COM0_Pin 
-                          |SEG12_Pin;
+  /*Configure GPIO pins : SEG1_Pin SEG2_Pin COM0_Pin SEG12_Pin */
+  GPIO_InitStruct.Pin = SEG1_Pin|SEG2_Pin|COM0_Pin|SEG12_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -479,7 +499,20 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void adcDMAInterrupt(){
+	static uint16_t pCurPos = 0;
+	adcValueArray[pCurPos] = adcValue;
+	pCurPos++;
+	if (pCurPos >= adcSampleRate) pCurPos = 0;
+	HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_2,&adcValue,1,DAC_ALIGN_12B_R);
+	TIM3 -> CNT = 0;
+	HAL_TIM_Base_Start(&htim3);
+}
 
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc1)
+{
+
+}
 /* USER CODE END 4 */
 
 /* StartDefaultTask function */
@@ -499,7 +532,9 @@ void StartDefaultTask(void const * argument)
 void workCommand(void const * argument)
 {
   /* USER CODE BEGIN workCommand */
-	USART1 -> CR1 |= USART_CR1_RXNEIE;
+	__HAL_TIM_ENABLE_IT(&htim3,TIM_IT_UPDATE);
+	__HAL_UART_ENABLE_IT(&huart1,UART_IT_RXNE);
+	__HAL_ADC_ENABLE_IT(&hadc,ADC_IT_EOC);
   /* Infinite loop */
   for(;;)
   {
@@ -566,7 +601,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-
   /* USER CODE END Callback 1 */
 }
 
