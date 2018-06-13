@@ -56,12 +56,18 @@
 
 /* Private variables ---------------------------------------------------------*/
 ADC_HandleTypeDef hadc;
+DMA_HandleTypeDef hdma_adc;
 
 DAC_HandleTypeDef hdac;
+DMA_HandleTypeDef hdma_dac_ch2;
 
 UART_HandleTypeDef huart1;
 
 osThreadId defaultTaskHandle;
+osThreadId workCommandTaskHandle;
+osThreadId uartSendTaskHandle;
+osMessageQId uartCommandHandle;
+osMessageQId uartSendMessageHandle;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
@@ -71,10 +77,13 @@ osThreadId defaultTaskHandle;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+static void MX_DMA_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_DAC_Init(void);
 static void MX_ADC_Init(void);
 void StartDefaultTask(void const * argument);
+void workCommand(void const * argument);
+void uartSend(void const * argument);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -114,6 +123,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART1_UART_Init();
   MX_DAC_Init();
   MX_ADC_Init();
@@ -138,9 +148,26 @@ int main(void)
   osThreadDef(defaultTask, StartDefaultTask, osPriorityNormal, 0, 128);
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
+  /* definition and creation of workCommandTask */
+  osThreadDef(workCommandTask, workCommand, osPriorityBelowNormal, 0, 128);
+  workCommandTaskHandle = osThreadCreate(osThread(workCommandTask), NULL);
+
+  /* definition and creation of uartSendTask */
+  osThreadDef(uartSendTask, uartSend, osPriorityBelowNormal, 0, 128);
+  uartSendTaskHandle = osThreadCreate(osThread(uartSendTask), NULL);
+
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
   /* USER CODE END RTOS_THREADS */
+
+  /* Create the queue(s) */
+  /* definition and creation of uartCommand */
+  osMessageQDef(uartCommand, QUEUE_UART_COMMAND_SIZE, uint32_t);
+  uartCommandHandle = osMessageCreate(osMessageQ(uartCommand), NULL);
+
+  /* definition and creation of uartSendMessage */
+  osMessageQDef(uartSendMessage, 16, uint16_t);
+  uartSendMessageHandle = osMessageCreate(osMessageQ(uartSendMessage), NULL);
 
   /* USER CODE BEGIN RTOS_QUEUES */
   /* add queues, ... */
@@ -304,6 +331,24 @@ static void MX_USART1_UART_Init(void)
 
 }
 
+/** 
+  * Enable DMA controller clock
+  */
+static void MX_DMA_Init(void) 
+{
+  /* DMA controller clock enable */
+  __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* DMA interrupt init */
+  /* DMA1_Channel1_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+  /* DMA1_Channel3_IRQn interrupt configuration */
+  HAL_NVIC_SetPriority(DMA1_Channel3_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(DMA1_Channel3_IRQn);
+
+}
+
 /** Configure pins as 
         * Analog 
         * Input 
@@ -448,6 +493,60 @@ void StartDefaultTask(void const * argument)
     osDelay(1);
   }
   /* USER CODE END 5 */ 
+}
+
+/* workCommand function */
+void workCommand(void const * argument)
+{
+  /* USER CODE BEGIN workCommand */
+	USART1 -> CR1 |= USART_CR1_RXNEIE;
+  /* Infinite loop */
+  for(;;)
+  {
+	  static char *pCmd;
+	 	if( uartCommandHandle != 0 )
+	 	{
+	 		if( xQueueReceive( uartCommandHandle, &(pCmd), ( TickType_t ) 10 ) )
+	 		{
+	 			if (strcmp(pCmd,"LED_ON") != NULL){
+	 				HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_RESET);
+	 			}else if (strcmp(pCmd,"LED_OFF") != NULL){
+	 				HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_SET);
+	 			}
+	 			if (pCmd != NULL) {
+	 				free(pCmd);
+	 				pCmd = NULL;
+	 			}
+	 		}
+	 	}
+  }
+  /* USER CODE END workCommand */
+}
+
+/* uartSend function */
+void uartSend(void const * argument)
+{
+  /* USER CODE BEGIN uartSend */
+  /* Infinite loop */
+  for(;;)
+  {
+	  static uint16_t pCmd;
+	 	if( uartCommandHandle != 0 )
+	 	{
+	 		if( xQueueReceive( uartSendMessageHandle, &(pCmd), ( TickType_t ) 10 ) )
+	 		{
+	 			switch(pCmd){
+	 			case UART_SEND_OK:
+	 					HAL_UART_Transmit(&huart1,"OK\n\r",4,100);
+	 				break;
+	 			case UART_SEND_BUSY:
+	 					HAL_UART_Transmit(&huart1,"BUSY\n\r",6,100);
+					break;
+	 			}
+	 		}
+	 	}
+  }
+  /* USER CODE END uartSend */
 }
 
 /**

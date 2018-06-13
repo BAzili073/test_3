@@ -37,10 +37,19 @@
 #include "cmsis_os.h"
 
 /* USER CODE BEGIN 0 */
+#include "stdlib.h"
+
+char * pointerToUartData = NULL;
+
+extern osMessageQId uartCommandHandle;
+extern osMessageQId uartSendMessageHandle;
 
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_adc;
+extern DMA_HandleTypeDef hdma_dac_ch2;
+extern UART_HandleTypeDef huart1;
 
 extern TIM_HandleTypeDef htim2;
 
@@ -70,6 +79,34 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+* @brief This function handles DMA1 channel1 global interrupt.
+*/
+void DMA1_Channel1_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel1_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel1_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_adc);
+  /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel1_IRQn 1 */
+}
+
+/**
+* @brief This function handles DMA1 channel3 global interrupt.
+*/
+void DMA1_Channel3_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel3_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel3_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_dac_ch2);
+  /* USER CODE BEGIN DMA1_Channel3_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel3_IRQn 1 */
+}
+
+/**
 * @brief This function handles TIM2 global interrupt.
 */
 void TIM2_IRQHandler(void)
@@ -81,6 +118,37 @@ void TIM2_IRQHandler(void)
   /* USER CODE BEGIN TIM2_IRQn 1 */
 
   /* USER CODE END TIM2_IRQn 1 */
+}
+
+/**
+* @brief This function handles USART1 global interrupt.
+*/
+void USART1_IRQHandler(void)
+{
+  /* USER CODE BEGIN USART1_IRQn 0 */
+	char recByte;
+	static uint16_t posData = 0;
+	recByte = USART1->DR;
+	if (pointerToUartData == NULL) pointerToUartData = malloc(UART_BUFF_SIZE);
+
+	if (recByte == 0x00 || (posData == (UART_BUFF_SIZE-1))){
+		pointerToUartData[posData] = 0x00;
+		if (osMessagePut(uartCommandHandle,pointerToUartData,100) == osOK){
+			osMessagePut(uartSendMessageHandle,UART_SEND_OK,100);
+		}else{
+			osMessagePut(uartSendMessageHandle,UART_SEND_BUSY,100);
+		}
+		pointerToUartData = NULL;
+		posData = 0;
+	}else{
+		pointerToUartData[posData] = recByte;
+		posData++;
+	}
+  /* USER CODE END USART1_IRQn 0 */
+  HAL_UART_IRQHandler(&huart1);
+  /* USER CODE BEGIN USART1_IRQn 1 */
+
+  /* USER CODE END USART1_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

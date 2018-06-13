@@ -151,6 +151,12 @@
 
 /* USER CODE BEGIN Private defines */
 
+#define UART_BUFF_SIZE 40
+#define QUEUE_UART_COMMAND_SIZE 15
+
+#define UART_SEND_OK 1
+#define UART_SEND_BUSY 2
+
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus
