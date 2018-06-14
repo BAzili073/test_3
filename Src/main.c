@@ -264,7 +264,7 @@ static void MX_ADC_Init(void)
     */
   hadc.Instance = ADC1;
   hadc.Init.ClockPrescaler = ADC_CLOCK_ASYNC_DIV1;
-  hadc.Init.Resolution = ADC_RESOLUTION_6B;
+  hadc.Init.Resolution = ADC_RESOLUTION_12B;
   hadc.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc.Init.ScanConvMode = ADC_SCAN_DISABLE;
   hadc.Init.EOCSelection = ADC_EOC_SEQ_CONV;
@@ -324,9 +324,9 @@ static void MX_TIM3_Init(void)
 {
 
   htim3.Instance = TIM3;
-  htim3.Init.Prescaler = 32;
+  htim3.Init.Prescaler = 3200;
   htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim3.Init.Period = 50000;
+  htim3.Init.Period = 10;
   htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   if (HAL_TIM_OnePulse_Init(&htim3, TIM_OPMODE_SINGLE) != HAL_OK)
   {
@@ -509,10 +509,28 @@ void adcDMAInterrupt(){
 	HAL_TIM_Base_Start(&htim3);
 }
 
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc1)
-{
-
+void setAdcSampleRate (uint16_t rate){
+	adcSampleRate = rate;
+	HAL_TIM_Base_Stop(&htim3);
+	TIM3 -> CNT = 0;
+	uint32_t TEMP_ARR = 10000/rate;
+	if (TEMP_ARR == 0){
+		TEMP_ARR = 10;
+	}
+	TIM3 -> ARR = TEMP_ARR;
+	HAL_TIM_Base_Start(&htim3);
 }
+
+uint32_t getAvgADC (){
+	uint32_t temp;
+	uint16_t i = 0;
+	for (i = 0;i < adcSampleRate;i++){
+		temp += adcValueArray[i];
+	}
+	temp = temp/adcSampleRate;
+	return temp;
+}
+
 /* USER CODE END 4 */
 
 /* StartDefaultTask function */
@@ -543,10 +561,14 @@ void workCommand(void const * argument)
 	 	{
 	 		if( xQueueReceive( uartCommandHandle, &(pCmd), ( TickType_t ) 10 ) )
 	 		{
-	 			if (strcmp(pCmd,"LED_ON") != NULL){
+	 			if (strcmp(pCmd,"LED_ON") == 0){
 	 				HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_RESET);
-	 			}else if (strcmp(pCmd,"LED_OFF") != NULL){
+	 			}else if (strcmp(pCmd,"LED_OFF") == 0){
 	 				HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_SET);
+	 			}else if (strcmp(pCmd,"SET_ADC_SAMPLE_RATE") == 0){
+
+	 			}else if (strcmp(pCmd,"GET_ADC_AVG_VOLTAGE") == 0){
+	 				osMessagePut(uartSendMessageHandle,UART_SEND_AVG_ADC,100);
 	 			}
 	 			if (pCmd != NULL) {
 	 				free(pCmd);
@@ -577,6 +599,10 @@ void uartSend(void const * argument)
 	 			case UART_SEND_BUSY:
 	 					HAL_UART_Transmit(&huart1,"BUSY\n\r",6,100);
 					break;
+	 			case UART_SEND_AVG_ADC:
+//					char STR_AVG_ADC[40];
+
+	 				break;
 	 			}
 	 		}
 	 	}

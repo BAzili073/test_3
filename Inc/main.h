@@ -154,6 +154,7 @@
 
 #define UART_SEND_OK 1
 #define UART_SEND_BUSY 2
+#define UART_SEND_AVG_ADC 3
 
 /* USER CODE END Private defines */
 

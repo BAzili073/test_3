@@ -12,8 +12,8 @@
 <targetDefinitions>
   <board id="stm32l-discovery">
     <name>STM32L-DISCOVERY</name>
-    <dbgIF>JTAG</dbgIF>
     <dbgIF>SWD</dbgIF>
+    <dbgIF>JTAG</dbgIF>
     <dbgDEV>ST-Link</dbgDEV>
     <mcuId>stm32l152rbtx</mcuId>
   </board>
