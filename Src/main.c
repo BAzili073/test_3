@@ -500,6 +500,11 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+/*
+ * ADC DMA Interrupt
+ * Start TIMer for next mesurement
+ * Copy result for avg value*/
 void adcDMAInterrupt(){
 	static uint16_t pCurPos = 0;
 	adcValueArray[pCurPos] = adcValue;
@@ -509,7 +514,8 @@ void adcDMAInterrupt(){
 	TIM3 -> CNT = 0;
 	HAL_TIM_Base_Start(&htim3);
 }
-
+/*
+ * Func for set ADC sample rate */
 void setAdcSampleRate (uint16_t rate){
 	if (rate == 0){
 		rate = 1;
@@ -525,6 +531,8 @@ void setAdcSampleRate (uint16_t rate){
 	HAL_TIM_Base_Start(&htim3);
 }
 
+/*
+ * Func for get ADC avg value */
 uint32_t getAvgADC (){
 	uint32_t temp;
 	uint16_t i = 0;
