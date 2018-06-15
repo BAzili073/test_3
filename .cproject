@@ -17,39 +17,38 @@
 				<configuration artifactExtension="elf" artifactName="${ProjName}" buildArtefactType="org.eclipse.cdt.build.core.buildArtefactType.exe" buildProperties="org.eclipse.cdt.build.core.buildArtefactType=org.eclipse.cdt.build.core.buildArtefactType.exe,org.eclipse.cdt.build.core.buildType=org.eclipse.cdt.build.core.buildType.debug" cleanCommand="rm -rf" description="" id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.195951383" name="Debug" parent="fr.ac6.managedbuild.config.gnu.cross.exe.debug" postannouncebuildStep="Generating binary and Printing size information:" postbuildStep="arm-none-eabi-objcopy -O binary &quot;${BuildArtifactFileBaseName}.elf&quot; &quot;${BuildArtifactFileBaseName}.bin&quot; &amp;&amp; arm-none-eabi-size &quot;${BuildArtifactFileName}&quot;">
 					<folderInfo id="fr.ac6.managedbuild.config.gnu.cross.exe.debug.195951383." name="/" resourcePath="">
 						<toolChain id="fr.ac6.managedbuild.toolchain.gnu.cross.exe.debug.1816600398" name="Ac6 STM32 MCU GCC" superClass="fr.ac6.managedbuild.toolchain.gnu.cross.exe.debug">
-							<option id="fr.ac6.managedbuild.option.gnu.cross.prefix.569360587" name="Prefix" superClass="fr.ac6.managedbuild.option.gnu.cross.prefix" value="arm-none-eabi-" valueType="string" />
-							<option id="fr.ac6.managedbuild.option.gnu.cross.mcu.131738414" name="Mcu" superClass="fr.ac6.managedbuild.option.gnu.cross.mcu" value="STM32L152RBTx" valueType="string" />
-							<option id="fr.ac6.managedbuild.option.gnu.cross.board.1023413655" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" value="STM32L-DISCOVERY" valueType="string" />
-							<option id="fr.ac6.managedbuild.option.gnu.cross.instructionSet.2045868416" name="Instruction Set" superClass="fr.ac6.managedbuild.option.gnu.cross.instructionSet" value="fr.ac6.managedbuild.option.gnu.cross.instructionSet.thumbII" valueType="enumerated" />
-							<option id="fr.ac6.managedbuild.option.gnu.cross.fpu.1550400632" name="Floating point hardware" superClass="fr.ac6.managedbuild.option.gnu.cross.fpu" value="fr.ac6.managedbuild.option.gnu.cross.fpu.no" valueType="enumerated" />
-							<option id="fr.ac6.managedbuild.option.gnu.cross.floatabi.1040996744" name="Floating-point ABI" superClass="fr.ac6.managedbuild.option.gnu.cross.floatabi" value="fr.ac6.managedbuild.option.gnu.cross.floatabi.soft" valueType="enumerated" />
+							<option id="fr.ac6.managedbuild.option.gnu.cross.prefix.569360587" name="Prefix" superClass="fr.ac6.managedbuild.option.gnu.cross.prefix" useByScannerDiscovery="false" value="arm-none-eabi-" valueType="string" />
+							<option id="fr.ac6.managedbuild.option.gnu.cross.mcu.131738414" name="Mcu" superClass="fr.ac6.managedbuild.option.gnu.cross.mcu" useByScannerDiscovery="false" value="STM32L152RBTx" valueType="string" />
+							<option id="fr.ac6.managedbuild.option.gnu.cross.board.1023413655" name="Board" superClass="fr.ac6.managedbuild.option.gnu.cross.board" useByScannerDiscovery="false" value="STM32L-DISCOVERY" valueType="string" />
+							<option id="fr.ac6.managedbuild.option.gnu.cross.instructionSet.2045868416" name="Instruction Set" superClass="fr.ac6.managedbuild.option.gnu.cross.instructionSet" useByScannerDiscovery="false" value="fr.ac6.managedbuild.option.gnu.cross.instructionSet.thumbII" valueType="enumerated" />
+							<option id="fr.ac6.managedbuild.option.gnu.cross.fpu.1550400632" name="Floating point hardware" superClass="fr.ac6.managedbuild.option.gnu.cross.fpu" useByScannerDiscovery="false" value="fr.ac6.managedbuild.option.gnu.cross.fpu.no" valueType="enumerated" />
+							<option id="fr.ac6.managedbuild.option.gnu.cross.floatabi.1040996744" name="Floating-point ABI" superClass="fr.ac6.managedbuild.option.gnu.cross.floatabi" useByScannerDiscovery="false" value="fr.ac6.managedbuild.option.gnu.cross.floatabi.soft" valueType="enumerated" />
 							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="fr.ac6.managedbuild.targetPlatform.gnu.cross.1254058698" isAbstract="false" osList="all" superClass="fr.ac6.managedbuild.targetPlatform.gnu.cross" />
 							<builder buildPath="${workspace_loc:/test_3}/Debug" id="fr.ac6.managedbuild.builder.gnu.cross.1984569453" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="Gnu Make Builder" superClass="fr.ac6.managedbuild.builder.gnu.cross">
 								<outputEntries>
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Debug" />
 								</outputEntries>
 							</builder>
-
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.804624220" name="MCU GCC Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler">
 								<option defaultValue="gnu.c.optimization.level.none" id="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level.1362896175" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.c.optimization.level.debug" valueType="enumerated" />
 								<option id="gnu.c.compiler.option.debugging.level.1143577719" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated" />
 								<option id="gnu.c.compiler.option.include.paths.932033293" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-                  <listOptionValue builtIn="false" value="../Inc" />
-                  <listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc" />
-                  <listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy" />
-                  <listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3" />
-                  <listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32L1xx/Include" />
-                  <listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/include" />
-                  <listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS" />
-                  <listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" />
-                </option>
+									<listOptionValue builtIn="false" value="../Inc" />
+									<listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc" />
+									<listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3" />
+									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32L1xx/Include" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/include" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS" />
+									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" />
+								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1972968978" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
-                  <listOptionValue builtIn="false" value="__weak=__attribute__((weak))" />
-                  <listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
-                  <listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
-                  <listOptionValue builtIn="false" value="STM32L152xB" />
-                </option>
-								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.1378399192" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" value="-fmessage-length=0" valueType="string" />
+									<listOptionValue builtIn="false" value="__weak=__attribute__((weak))" />
+									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
+									<listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
+									<listOptionValue builtIn="false" value="STM32L152xB" />
+								</option>
+								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.1378399192" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.194245738" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.1084038483" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s" />
 							</tool>
@@ -57,30 +56,30 @@
 								<option defaultValue="gnu.cpp.optimization.level.none" id="fr.ac6.managedbuild.gnu.cpp.compiler.option.optimization.level.47263925" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.cpp.optimization.level.debug" valueType="enumerated" />
 								<option id="gnu.cpp.compiler.option.debugging.level.553005398" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated" />
 								<option id="gnu.cpp.compiler.option.include.paths.1842250420" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-                  <listOptionValue builtIn="false" value="../Inc" />
-                  <listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc" />
-                  <listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy" />
-                  <listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3" />
-                  <listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32L1xx/Include" />
-                  <listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/include" />
-                  <listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS" />
-                  <listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" />
-                </option>
+									<listOptionValue builtIn="false" value="../Inc" />
+									<listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc" />
+									<listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3" />
+									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32L1xx/Include" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/include" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS" />
+									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" />
+								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1927061645" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" useByScannerDiscovery="false" valueType="definedSymbols">
-                  <listOptionValue builtIn="false" value="__weak=__attribute__((weak))" />
-                  <listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
-                  <listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
-                  <listOptionValue builtIn="false" value="STM32L152xB" />
-                </option>
-								<option id="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other.947449990" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other" value="-fmessage-length=0" valueType="string" />
+									<listOptionValue builtIn="false" value="__weak=__attribute__((weak))" />
+									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
+									<listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
+									<listOptionValue builtIn="false" value="STM32L152xB" />
+								</option>
+								<option id="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other.947449990" name="Other flags" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.1305836587" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.983225623" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s" />
 							</tool>
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.718654231" name="MCU GCC Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker">
-								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script.850433750" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script" value="../STM32L152RBTx_FLASH.ld" valueType="string" />
-								<option id="gnu.c.link.option.libs.24166341" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs" />
-								<option id="gnu.c.link.option.paths.866903566" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths" />
-								<option id="gnu.c.link.option.ldflags.641698652" superClass="gnu.c.link.option.ldflags" value="-specs=nosys.specs -specs=nano.specs" valueType="string" />
+								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script.850433750" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script" useByScannerDiscovery="false" value="../STM32L152RBTx_FLASH.ld" valueType="string" />
+								<option id="gnu.c.link.option.libs.24166341" name="Libraries (-l)" superClass="gnu.c.link.option.libs" useByScannerDiscovery="false" />
+								<option id="gnu.c.link.option.paths.866903566" name="Library search path (-L)" superClass="gnu.c.link.option.paths" useByScannerDiscovery="false" />
+								<option id="gnu.c.link.option.ldflags.641698652" name="Linker flags" superClass="gnu.c.link.option.ldflags" useByScannerDiscovery="false" value="-specs=nosys.specs -specs=nano.specs -u _printf_float" valueType="string" />
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.72248336" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)" />
 									<additionalInput kind="additionalinput" paths="$(LIBS)" />
@@ -88,9 +87,9 @@
 							</tool>
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.1834434579" name="MCU G++ Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.script.1514382430" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.script" value="../STM32L152RBTx_FLASH.ld" valueType="string" />
-								<option id="gnu.cpp.link.option.libs.1874392920" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs" />
-								<option id="gnu.cpp.link.option.paths.1297368733" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths" />
-								<option id="gnu.cpp.link.option.flags.1425413269" superClass="gnu.cpp.link.option.flags" value="-specs=nosys.specs -specs=nano.specs" valueType="string" />
+								<option id="gnu.cpp.link.option.libs.1874392920" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" />
+								<option id="gnu.cpp.link.option.paths.1297368733" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" />
+								<option id="gnu.cpp.link.option.flags.1425413269" name="Linker flags" superClass="gnu.cpp.link.option.flags" value="-specs=nosys.specs -specs=nano.specs" valueType="string" />
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.677018679" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)" />
 									<additionalInput kind="additionalinput" paths="$(LIBS)" />
@@ -98,21 +97,18 @@
 							</tool>
 							<tool id="fr.ac6.managedbuild.tool.gnu.archiver.610496546" name="MCU GCC Archiver" superClass="fr.ac6.managedbuild.tool.gnu.archiver" />
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.assembler.2070269938" name="MCU GCC Assembler" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler">
-								<option id="gnu.both.asm.option.include.paths.494451497" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									
-								</option>
+								<option id="gnu.both.asm.option.include.paths.494451497" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" useByScannerDiscovery="false" />
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1286131802" superClass="cdt.managedbuild.tool.gnu.assembler.input" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.471859268" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input" />
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-            <entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="startup" />
-            <entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares" />
-            <entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers" />
-            <entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src" />
-            <entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Inc" />
-						
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="startup" />
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares" />
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers" />
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src" />
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Inc" />
 					</sourceEntries>
 				</configuration>
 			</storageModule>
@@ -146,27 +142,26 @@
 									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="Release" />
 								</outputEntries>
 							</builder>
-
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.804624220" name="MCU GCC Compiler" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler">
 								<option defaultValue="gnu.c.optimization.level.none" id="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level.1362896175" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.c.optimization.level.debug" valueType="enumerated" />
 								<option id="gnu.c.compiler.option.debugging.level.1143577719" name="Debug Level" superClass="gnu.c.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.c.debugging.level.max" valueType="enumerated" />
 								<option id="gnu.c.compiler.option.include.paths.932033293" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-                  <listOptionValue builtIn="false" value="../Inc" />
-                  <listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc" />
-                  <listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy" />
-                  <listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3" />
-                  <listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32L1xx/Include" />
-                  <listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/include" />
-                  <listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS" />
-                  <listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" />
-                </option>
+									<listOptionValue builtIn="false" value="../Inc" />
+									<listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc" />
+									<listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3" />
+									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32L1xx/Include" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/include" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS" />
+									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" />
+								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1972968978" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
-                  <listOptionValue builtIn="false" value="__weak=__attribute__((weak))" />
-                  <listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
-                  <listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
-                  <listOptionValue builtIn="false" value="STM32L152xB" />
-                </option>
-								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.1378399192" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" value="-fmessage-length=0" valueType="string" />
+									<listOptionValue builtIn="false" value="__weak=__attribute__((weak))" />
+									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
+									<listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
+									<listOptionValue builtIn="false" value="STM32L152xB" />
+								</option>
+								<option id="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other.1378399192" superClass="fr.ac6.managedbuild.gnu.c.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c.194245738" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.c" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s.1084038483" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.compiler.input.s" />
 							</tool>
@@ -174,30 +169,30 @@
 								<option defaultValue="gnu.cpp.optimization.level.none" id="fr.ac6.managedbuild.gnu.cpp.compiler.option.optimization.level.47263925" name="Optimization Level" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.optimization.level" useByScannerDiscovery="false" value="fr.ac6.managedbuild.gnu.cpp.optimization.level.debug" valueType="enumerated" />
 								<option id="gnu.cpp.compiler.option.debugging.level.553005398" name="Debug Level" superClass="gnu.cpp.compiler.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.debugging.level.max" valueType="enumerated" />
 								<option id="gnu.cpp.compiler.option.include.paths.1842250420" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-                  <listOptionValue builtIn="false" value="../Inc" />
-                  <listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc" />
-                  <listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy" />
-                  <listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3" />
-                  <listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32L1xx/Include" />
-                  <listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/include" />
-                  <listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS" />
-                  <listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" />
-                </option>
+									<listOptionValue builtIn="false" value="../Inc" />
+									<listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc" />
+									<listOptionValue builtIn="false" value="../Drivers/STM32L1xx_HAL_Driver/Inc/Legacy" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM3" />
+									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Device/ST/STM32L1xx/Include" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/include" />
+									<listOptionValue builtIn="false" value="../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS" />
+									<listOptionValue builtIn="false" value="../Drivers/CMSIS/Include" />
+								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.symbols.821395906" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def.symbols" useByScannerDiscovery="false" valueType="definedSymbols">
-                  <listOptionValue builtIn="false" value="__weak=__attribute__((weak))" />
-                  <listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
-                  <listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
-                  <listOptionValue builtIn="false" value="STM32L152xB" />
-                </option>
-								<option id="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other.947449990" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other" value="-fmessage-length=0" valueType="string" />
+									<listOptionValue builtIn="false" value="__weak=__attribute__((weak))" />
+									<listOptionValue builtIn="false" value="__packed=__attribute__((__packed__))" />
+									<listOptionValue builtIn="false" value="USE_HAL_DRIVER" />
+									<listOptionValue builtIn="false" value="STM32L152xB" />
+								</option>
+								<option id="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other.947449990" name="Other flags" superClass="fr.ac6.managedbuild.gnu.cpp.compiler.option.misc.other" useByScannerDiscovery="false" value="-fmessage-length=0" valueType="string" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp.1305836587" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.cpp" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s.983225623" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.compiler.input.s" />
 							</tool>
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.718654231" name="MCU GCC Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker">
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script.850433750" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.c.linker.script" value="../STM32L152RBTx_FLASH.ld" valueType="string" />
-								<option id="gnu.c.link.option.libs.24166341" name="Libraries (-l)" superClass="gnu.c.link.option.libs" valueType="libs" />
-								<option id="gnu.c.link.option.paths.866903566" name="Library search path (-L)" superClass="gnu.c.link.option.paths" valueType="libPaths" />
-								<option id="gnu.c.link.option.ldflags.641698652" superClass="gnu.c.link.option.ldflags" value="-specs=nosys.specs -specs=nano.specs" valueType="string" />
+								<option id="gnu.c.link.option.libs.24166341" name="Libraries (-l)" superClass="gnu.c.link.option.libs" />
+								<option id="gnu.c.link.option.paths.866903566" name="Library search path (-L)" superClass="gnu.c.link.option.paths" />
+								<option id="gnu.c.link.option.ldflags.641698652" name="Linker flags" superClass="gnu.c.link.option.ldflags" value="-specs=nosys.specs -specs=nano.specs" valueType="string" />
 								<inputType id="cdt.managedbuild.tool.gnu.c.linker.input.72248336" superClass="cdt.managedbuild.tool.gnu.c.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)" />
 									<additionalInput kind="additionalinput" paths="$(LIBS)" />
@@ -205,31 +200,28 @@
 							</tool>
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.1834434579" name="MCU G++ Linker" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker">
 								<option id="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.script.1514382430" name="Linker Script (-T)" superClass="fr.ac6.managedbuild.tool.gnu.cross.cpp.linker.script" value="../STM32L152RBTx_FLASH.ld" valueType="string" />
-								<option id="gnu.cpp.link.option.libs.1874392920" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs" />
-								<option id="gnu.cpp.link.option.paths.1297368733" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths" />
+								<option id="gnu.cpp.link.option.libs.1874392920" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" />
+								<option id="gnu.cpp.link.option.paths.1297368733" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" />
 								<option id="gnu.cpp.link.option.ldflags.930460687" superClass="gnu.cpp.link.option.ldflags" value="-specs=nosys.specs -specs=nano.specs" valueType="string" />
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.677018679" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)" />
 									<additionalInput kind="additionalinput" paths="$(LIBS)" />
 								</inputType>
-							</tool>	
+							</tool>
 							<tool id="fr.ac6.managedbuild.tool.gnu.archiver.610496546" name="MCU GCC Archiver" superClass="fr.ac6.managedbuild.tool.gnu.archiver" />
 							<tool id="fr.ac6.managedbuild.tool.gnu.cross.assembler.2070269938" name="MCU GCC Assembler" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler">
-								<option id="gnu.both.asm.option.include.paths.494451497" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									
-								</option>
+								<option id="gnu.both.asm.option.include.paths.494451497" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" />
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1286131802" superClass="cdt.managedbuild.tool.gnu.assembler.input" />
 								<inputType id="fr.ac6.managedbuild.tool.gnu.cross.assembler.input.471859268" superClass="fr.ac6.managedbuild.tool.gnu.cross.assembler.input" />
 							</tool>
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-            <entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="startup" />
-            <entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares" />
-            <entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers" />
-            <entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src" />
-            <entry excluding="" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Inc" />
-						
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="startup" />
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Middlewares" />
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Drivers" />
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src" />
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Inc" />
 					</sourceEntries>
 				</configuration>
 			</storageModule>

@@ -51,7 +51,9 @@
 #include "cmsis_os.h"
 
 /* USER CODE BEGIN Includes */
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -73,7 +75,6 @@ osMessageQId uartSendMessageHandle;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -156,11 +157,11 @@ int main(void)
   defaultTaskHandle = osThreadCreate(osThread(defaultTask), NULL);
 
   /* definition and creation of workCommandTask */
-  osThreadDef(workCommandTask, workCommand, osPriorityBelowNormal, 0, 128);
+  osThreadDef(workCommandTask, workCommand, osPriorityBelowNormal, 0, 512);
   workCommandTaskHandle = osThreadCreate(osThread(workCommandTask), NULL);
 
   /* definition and creation of uartSendTask */
-  osThreadDef(uartSendTask, uartSend, osPriorityBelowNormal, 0, 128);
+  osThreadDef(uartSendTask, uartSend, osPriorityBelowNormal, 0, 512);
   uartSendTaskHandle = osThreadCreate(osThread(uartSendTask), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
@@ -504,12 +505,15 @@ void adcDMAInterrupt(){
 	adcValueArray[pCurPos] = adcValue;
 	pCurPos++;
 	if (pCurPos >= adcSampleRate) pCurPos = 0;
-	HAL_DAC_Start_DMA(&hdac, DAC_CHANNEL_2,&adcValue,1,DAC_ALIGN_12B_R);
+	HAL_DAC_SetValue(&hdac,DAC_CHANNEL_2,DAC_ALIGN_12B_R,adcValue);
 	TIM3 -> CNT = 0;
 	HAL_TIM_Base_Start(&htim3);
 }
 
 void setAdcSampleRate (uint16_t rate){
+	if (rate == 0){
+		rate = 1;
+	}
 	adcSampleRate = rate;
 	HAL_TIM_Base_Stop(&htim3);
 	TIM3 -> CNT = 0;
@@ -553,6 +557,7 @@ void workCommand(void const * argument)
 	__HAL_TIM_ENABLE_IT(&htim3,TIM_IT_UPDATE);
 	__HAL_UART_ENABLE_IT(&huart1,UART_IT_RXNE);
 	__HAL_ADC_ENABLE_IT(&hadc,ADC_IT_EOC);
+	HAL_DAC_Start(&hdac,DAC_CHANNEL_2);
   /* Infinite loop */
   for(;;)
   {
@@ -565,8 +570,16 @@ void workCommand(void const * argument)
 	 				HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_RESET);
 	 			}else if (strcmp(pCmd,"LED_OFF") == 0){
 	 				HAL_GPIO_WritePin(LD3_GPIO_Port,LD3_Pin,GPIO_PIN_SET);
-	 			}else if (strcmp(pCmd,"SET_ADC_SAMPLE_RATE") == 0){
-
+	 			}else if (strncmp(pCmd,"SET_ADC_SAMPLE_RATE",19) == 0){
+	 				int i = 0;
+	 				uint16_t sampleRateTemp = 0;
+	 				while(pCmd[i] != 0x00){
+	 					if (pCmd[i] >= '0' && pCmd[i] <= '9'){
+	 						sampleRateTemp = sampleRateTemp * 10 + pCmd[i]-'0';
+	 					}
+	 				   i++;
+	 				}
+	 				setAdcSampleRate(sampleRateTemp);
 	 			}else if (strcmp(pCmd,"GET_ADC_AVG_VOLTAGE") == 0){
 	 				osMessagePut(uartSendMessageHandle,UART_SEND_AVG_ADC,100);
 	 			}
@@ -592,16 +605,19 @@ void uartSend(void const * argument)
 	 	{
 	 		if( xQueueReceive( uartSendMessageHandle, &(pCmd), ( TickType_t ) 10 ) )
 	 		{
+	 			volatile char strAvgADC[40];
+	 			volatile float avgNum;
 	 			switch(pCmd){
 	 			case UART_SEND_OK:
-	 					HAL_UART_Transmit(&huart1,"OK\n\r",4,100);
+	 					HAL_UART_Transmit(&huart1,"\n\rOK",4,100);
 	 				break;
 	 			case UART_SEND_BUSY:
-	 					HAL_UART_Transmit(&huart1,"BUSY\n\r",6,100);
+	 					HAL_UART_Transmit(&huart1,"\n\rBUSY",6,100);
 					break;
 	 			case UART_SEND_AVG_ADC:
-//					char STR_AVG_ADC[40];
-
+					avgNum = ((float)(getAvgADC())/(float)4095) * 3.3;
+					sprintf(strAvgADC, "\n\rAVG ADC = %.4f",avgNum);
+					HAL_UART_Transmit(&huart1,strAvgADC,16,100);
 	 				break;
 	 			}
 	 		}
